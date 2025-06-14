@@ -2,11 +2,11 @@ import { EventEmitter } from 'events';
 import type { AgentConfig, AgentStatus } from '../types/index.js';
 
 export class AgentPool extends EventEmitter {
-  private config: AgentConfig;
+  private _config: AgentConfig;
   
   constructor(config: AgentConfig) {
     super();
-    this.config = config;
+    this._config = config;
   }
 
   async initialize(_mcpManager: any): Promise<void> {

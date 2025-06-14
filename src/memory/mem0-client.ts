@@ -1,10 +1,10 @@
 import type { MemoryConfig, Task, TaskResult } from '../types/index.js';
 
 export class MemoryManager {
-  private config: MemoryConfig;
+  private _config: MemoryConfig;
   
   constructor(config: MemoryConfig) {
-    this.config = config;
+    this._config = config;
   }
 
   async connect(): Promise<void> {
