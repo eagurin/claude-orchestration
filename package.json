@@ -1,0 +1,63 @@
+{
+  "name": "claude-orchestration",
+  "version": "0.1.0",
+  "description": "A powerful orchestration system for managing multiple Claude agents",
+  "main": "dist/index.js",
+  "bin": {
+    "claude-orchestrate": "dist/cli/index.js"
+  },
+  "scripts": {
+    "dev": "tsx watch src/cli/index.ts",
+    "build": "tsc",
+    "start": "node dist/cli/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "setup": "npm run build && npm run setup:mcp",
+    "setup:mcp": "node scripts/setup-mcp.js",
+    "task:submit": "node dist/cli/index.js task submit"
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "orchestration",
+    "mcp",
+    "multi-agent",
+    "typescript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "@modelcontextprotocol/sdk": "^0.4.0",
+    "commander": "^11.1.0",
+    "dotenv": "^16.4.5",
+    "ioredis": "^5.3.2",
+    "winston": "^3.13.0",
+    "yaml": "^2.4.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.7",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/claude_orchestration.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/claude_orchestration/issues"
+  },
+  "homepage": "https://github.com/yourusername/claude_orchestration#readme"
+}

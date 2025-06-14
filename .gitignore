@@ -1,0 +1,101 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.txt
+coverage.html
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+build/
+tmp/
+
+# Shared memory files
+*.shm
+*.mmap
+
+# Agent workspaces
+workspaces/
+worktrees/
+.claude-swarm/
+
+# Log files
+*.log
+logs/
+
+# Configuration overrides
+*.local.yaml
+*.local.yml
+config.local.yaml
+
+# Performance profiling
+*.prof
+*.pprof
+profile.svg
+
+# Generated files
+api/proto/*.pb.go
+internal/generated/
+
+# Temporary test files
+testdata/tmp/
+.test_cache/
+
+# Benchmark results
+benchmarks/*.txt
+benchmarks/*.json
+
+# Documentation build
+docs/_build/
+docs/.doctrees/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+.directory
+.Trash-*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Debug files
+debug/
+__debug_bin*
+
+# Goreleaser
+dist/
+.goreleaser.yaml

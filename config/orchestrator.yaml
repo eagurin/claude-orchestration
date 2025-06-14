@@ -1,0 +1,56 @@
+# Claude Orchestration Configuration
+
+orchestrator:
+  maxAgents: 10
+  taskTimeout: 300000 # 5 minutes
+  retryAttempts: 3
+
+agents:
+  defaultModel: "claude-3-5-sonnet-20241022"
+  maxTokens: 100000
+  temperature: 0.7
+  spawnTimeout: 10000
+
+taskQueue:
+  maxConcurrency: 5
+  retryDelay: 1000
+  # redisUrl: "redis://localhost:6379" # Optional for distributed setup
+
+mcp:
+  servers:
+    - filesystem
+    - memory
+    - github
+    - web-search
+  serverPath: "./config/mcp-servers.json"
+
+memory:
+  # apiKey: "your-mem0-api-key" # Set in environment
+  baseUrl: "https://api.mem0.ai"
+  userId: "orchestrator-user"
+
+monitoring:
+  port: 3000
+  metricsInterval: 1000
+  enableTracing: true
+
+patterns:
+  swarm:
+    defaultAgents: 3
+    maxAgents: 10
+    diversityStrategy: "capability" # random, capability, experience
+  
+  pipeline:
+    maxStages: 10
+    stageTimeout: 60000
+    allowParallelStages: true
+  
+  consensus:
+    minAgents: 3
+    agreementThreshold: 0.8
+    maxRounds: 5
+  
+  mapreduce:
+    chunkSize: 1000
+    maxMappers: 5
+    maxReducers: 2
