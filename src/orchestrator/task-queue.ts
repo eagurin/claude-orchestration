@@ -2,11 +2,11 @@ import { EventEmitter } from 'events';
 import type { TaskQueueConfig } from '../types/index.js';
 
 export class TaskQueue extends EventEmitter {
-  private config: TaskQueueConfig;
+  private _config: TaskQueueConfig;
   
   constructor(config: TaskQueueConfig) {
     super();
-    this.config = config;
+    this._config = config;
   }
 
   async start(): Promise<void> {

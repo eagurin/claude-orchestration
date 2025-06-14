@@ -1,10 +1,10 @@
 import type { MCPConfig } from '../types/index.js';
 
 export class MCPManager {
-  private config: MCPConfig;
+  private _config: MCPConfig;
   
   constructor(config: MCPConfig) {
-    this.config = config;
+    this._config = config;
   }
 
   async start(): Promise<void> {
