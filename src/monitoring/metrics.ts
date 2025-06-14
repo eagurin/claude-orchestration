@@ -1,10 +1,10 @@
 import type { MonitoringConfig, ExecutionPattern, MetricsSnapshot } from '../types/index.js';
 
 export class MetricsCollector {
-  private config: MonitoringConfig;
+  private _config: MonitoringConfig;
   
   constructor(config: MonitoringConfig) {
-    this.config = config;
+    this._config = config;
   }
 
   async start(): Promise<void> {
