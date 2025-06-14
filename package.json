@@ -5,7 +5,8 @@
   "main": "dist/agents/cli/index.js",
   "bin": {
     "claude-orchestrate": "dist/agents/cli/index.js",
-    "claude-settings": "dist/settings/cli.js"
+    "claude-settings": "dist/settings/cli.js",
+    "claude-supervisors": "dist/agents/cli/supervisor-cli.js"
   },
   "scripts": {
     "dev": "tsx watch src/agents/cli/index.ts",

@@ -4,6 +4,9 @@ import { TaskQueue } from './task-queue.js';
 import { MCPManager } from '../mcp/server.js';
 import { MemoryManager } from '../memory/mem0-client.js';
 import { MetricsCollector } from '../monitoring/metrics.js';
+import { OrchestrationDirector } from '../agents/orchestration-director.js';
+import { ConfigManager } from '../settings/config-manager.js';
+import { EnvironmentConfig } from '../settings/environment-config.js';
 import { Logger } from '../utils/logger.js';
 import type { 
   OrchestratorConfig, 
@@ -22,10 +25,13 @@ export class Orchestrator extends EventEmitter {
   private mcpManager: MCPManager;
   private memoryManager: MemoryManager;
   private metrics: MetricsCollector;
+  private configManager: ConfigManager;
+  private orchestrationDirector?: OrchestrationDirector;
   private logger: Logger;
   private isRunning = false;
+  private supervisionEnabled = false;
 
-  constructor(config: OrchestratorConfig) {
+  constructor(config: OrchestratorConfig, configManager?: ConfigManager) {
     super();
     this.config = config;
     this.logger = new Logger('Orchestrator');
@@ -35,6 +41,12 @@ export class Orchestrator extends EventEmitter {
     this.mcpManager = new MCPManager(config.mcp);
     this.memoryManager = new MemoryManager(config.memory);
     this.metrics = new MetricsCollector(config.monitoring);
+    
+    // Initialize configuration manager
+    this.configManager = configManager || new ConfigManager('development');
+    
+    // Check if supervision should be enabled
+    this.supervisionEnabled = this.shouldEnableSupervision();
   }
 
   /**
@@ -45,9 +57,14 @@ export class Orchestrator extends EventEmitter {
       throw new Error('Orchestrator is already running');
     }
 
-    this.logger.info('Starting orchestrator...');
+    this.logger.info('Starting orchestrator...', {
+      supervisionEnabled: this.supervisionEnabled
+    });
 
     try {
+      // Initialize configuration system first
+      await this.initializeConfiguration();
+      
       // Start core components
       await this.mcpManager.start();
       await this.memoryManager.connect();
@@ -55,11 +72,26 @@ export class Orchestrator extends EventEmitter {
       await this.taskQueue.start();
       await this.metrics.start();
 
+      // Start supervision system if enabled
+      if (this.supervisionEnabled) {
+        await this.startSupervisionSystem();
+      }
+
       // Set up event handlers
       this.setupEventHandlers();
 
       this.isRunning = true;
-      this.logger.info('Orchestrator started successfully');
+      this.logger.info('Orchestrator started successfully', {
+        supervisionEnabled: this.supervisionEnabled,
+        components: {
+          mcp: true,
+          memory: true,
+          agents: true,
+          queue: true,
+          metrics: true,
+          supervision: this.supervisionEnabled
+        }
+      });
       this.emit('started');
     } catch (error) {
       this.logger.error('Failed to start orchestrator:', error);
@@ -79,11 +111,17 @@ export class Orchestrator extends EventEmitter {
     this.logger.info('Stopping orchestrator...');
 
     try {
+      // Stop supervision system first
+      if (this.orchestrationDirector) {
+        await this.orchestrationDirector.stop();
+      }
+      
       await this.taskQueue.stop();
       await this.agentPool.shutdown();
       await this.mcpManager.stop();
       await this.memoryManager.disconnect();
       await this.metrics.stop();
+      await this.configManager.dispose();
 
       this.isRunning = false;
       this.logger.info('Orchestrator stopped successfully');
@@ -164,13 +202,59 @@ export class Orchestrator extends EventEmitter {
    * Get current status of the orchestrator
    */
   getStatus() {
-    return {
+    const baseStatus = {
       isRunning: this.isRunning,
       agents: this.agentPool.getStatus(),
       taskQueue: this.taskQueue.getStatus(),
       mcp: this.mcpManager.getStatus(),
-      metrics: this.metrics.getSnapshot()
+      metrics: this.metrics.getSnapshot(),
+      supervision: {
+        enabled: this.supervisionEnabled,
+        active: !!this.orchestrationDirector
+      }
     };
+
+    if (this.orchestrationDirector) {
+      return {
+        ...baseStatus,
+        supervisorSystem: this.orchestrationDirector.getSystemStatus()
+      };
+    }
+
+    return baseStatus;
+  }
+
+  /**
+   * Process a GitHub issue through the supervision system
+   */
+  async processGitHubIssue(issue: any): Promise<any> {
+    if (!this.orchestrationDirector) {
+      throw new Error('Supervision system not enabled');
+    }
+
+    return await this.orchestrationDirector.processGitHubIssue(issue);
+  }
+
+  /**
+   * Get supervision system metrics
+   */
+  getSupervisionMetrics(): any {
+    if (!this.orchestrationDirector) {
+      return null;
+    }
+
+    return this.orchestrationDirector.getSystemStatus().metrics;
+  }
+
+  /**
+   * Create a crisis team for critical issues
+   */
+  async createCrisisTeam(issue: any): Promise<any> {
+    if (!this.orchestrationDirector) {
+      throw new Error('Supervision system not enabled');
+    }
+
+    return await this.orchestrationDirector.createCrisisTeam(issue);
   }
 
   private async executeSwarmPattern(task: Task): Promise<TaskResult> {
@@ -195,6 +279,63 @@ export class Orchestrator extends EventEmitter {
     const { MapReducePattern } = await import('../patterns/mapreduce.js');
     const pattern = new MapReducePattern(this.agentPool, this.config.patterns?.mapreduce);
     return pattern.execute(task);
+  }
+
+  private shouldEnableSupervision(): boolean {
+    // Enable supervision if we have enough agents and it's configured
+    return this.config.agents?.maxAgents > 5;
+  }
+
+  private async initializeConfiguration(): Promise<void> {
+    const schema = EnvironmentConfig.getCompleteSchema('development');
+    await this.configManager.initialize({
+      schema,
+      configPaths: ['./config/orchestrator.yaml', './orchestrator.config.yaml'],
+      watchFiles: true
+    });
+
+    this.logger.info('Configuration system initialized');
+  }
+
+  private async startSupervisionSystem(): Promise<void> {
+    if (!this.supervisionEnabled) {
+      return;
+    }
+
+    const orchestrationConfig = {
+      supervisor: {
+        maxSupervisors: 5,
+        autoScaling: true,
+        workingHours: {
+          start: '09:00',
+          end: '18:00',
+          timezone: 'UTC'
+        },
+        domains: ['settings', 'security', 'monitoring', 'memory', 'orchestration'],
+        balancingStrategy: 'expertise' as const
+      },
+      github: {
+        enabled: true,
+        webhookPort: 3001,
+        repositories: ['claude-orchestration'],
+        autoAssignment: true
+      },
+      performance: {
+        maxConcurrentIssues: 20,
+        balancingInterval: 300000, // 5 minutes
+        metricsCollectionInterval: 60000 // 1 minute
+      },
+      reporting: {
+        enabled: true,
+        interval: 3600000, // 1 hour
+        recipients: []
+      }
+    };
+
+    this.orchestrationDirector = new OrchestrationDirector(orchestrationConfig, this.configManager);
+    await this.orchestrationDirector.start();
+
+    this.logger.info('Supervision system started successfully');
   }
 
   private setupEventHandlers(): void {
@@ -222,6 +363,24 @@ export class Orchestrator extends EventEmitter {
       this.logger.error(`Task failed: ${taskId}`, error);
       this.emit('taskFailed', taskId, error);
     });
+
+    // Setup supervision system event handlers
+    if (this.orchestrationDirector) {
+      this.orchestrationDirector.on('urgentIssueProcessed', (event) => {
+        this.logger.warn('Urgent issue processed by supervision system', event);
+        this.emit('urgentIssue', event);
+      });
+
+      this.orchestrationDirector.on('crisisTeamCreated', (event) => {
+        this.logger.error('Crisis team created for critical issue', event);
+        this.emit('crisisTeam', event);
+      });
+
+      this.orchestrationDirector.on('performanceAlert', (event) => {
+        this.logger.warn('Performance alert from supervision system', event);
+        this.emit('performanceAlert', event);
+      });
+    }
   }
 }
 

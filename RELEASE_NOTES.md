@@ -15,23 +15,27 @@ npm run build && npm start -- start
 ## ✨ Key Features
 
 ### 🤖 Claude Code Subscription Support
+
 - **No API keys required** - works with Claude Code MAX subscription
 - **Automatic mode detection** - switches between API and subscription modes
 - **Full compatibility** - all features work in subscription mode
 
 ### 🎼 Multi-Agent Orchestration
+
 - **Swarm Pattern**: Parallel exploration with consensus aggregation
 - **Pipeline Pattern**: Sequential processing through specialized agents  
 - **Consensus Pattern**: Multi-agent validation with agreement thresholds
 - **MapReduce Pattern**: Distributed processing with chunking and reduction
 
 ### 🔧 Production-Ready Architecture
+
 - **Event-Driven**: Real-time agent coordination via EventEmitter
 - **Type-Safe**: Full TypeScript implementation with comprehensive types
 - **Configurable**: YAML configuration with environment overrides
 - **Extensible**: Pluggable pattern system for custom strategies
 
 ### 🛠️ Developer Experience
+
 - **CLI Interface**: Complete command-line tool with interactive mode
 - **Hot Reload**: Development server with automatic restart
 - **Quality Checks**: ESLint, TypeScript, Jest configuration
@@ -52,17 +56,20 @@ npm run build && npm start -- start
 ## 🎯 Usage Examples
 
 ### Basic Task Execution
+
 ```bash
 npm run task:submit -- --pattern swarm "Analyze this codebase structure"
 ```
 
 ### Interactive Mode
+
 ```bash
 npm start -- interactive
 # Then type: swarm Refactor authentication module
 ```
 
 ### Agent Management
+
 ```bash
 npm start -- agents list
 npm start -- status
@@ -102,18 +109,21 @@ npm start -- status
 ## 🔮 Roadmap
 
 ### v1.1.0 - Pattern Implementation
+
 - Complete Swarm pattern with real agent coordination
 - Pipeline pattern with stage-based processing
 - Consensus pattern with voting mechanisms
 - MapReduce pattern with data chunking
 
 ### v1.2.0 - Advanced Features
+
 - Web dashboard for real-time monitoring
 - Enhanced MCP tool integration
 - Production deployment guides
 - Performance optimizations
 
 ### v2.0.0 - Enterprise Features
+
 - Multi-tenant support
 - Advanced security features
 - Scalability improvements
@@ -122,14 +132,17 @@ npm start -- status
 ## 🛠️ Development
 
 ### Prerequisites
+
 - Node.js 20+
 - Claude Code subscription (recommended) or Anthropic API key
 - npm or yarn
 
 ### Contributing
+
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for development guidelines.
 
 ### Testing
+
 ```bash
 npm test          # Run all tests
 npm run lint      # Code quality checks
