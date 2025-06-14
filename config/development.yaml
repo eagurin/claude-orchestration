@@ -1,0 +1,116 @@
+# Claude Orchestration - Development Configuration
+
+orchestrator:
+  agents:
+    maxAgents: 3
+    defaultTimeout: 60000
+    retryAttempts: 2
+    healthCheckInterval: 30000
+  
+  patterns:
+    swarm:
+      enabled: true
+      maxConcurrency: 3
+      resultAggregation: consensus
+    
+    pipeline:
+      enabled: true
+      stageTimeout: 60000
+      failureHandling: retry
+    
+    consensus:
+      enabled: true
+      minAgreement: 0.6
+      maxRounds: 3
+    
+    mapreduce:
+      enabled: true
+      chunkSize: 50
+      reduceStrategy: merge
+  
+  monitoring:
+    enabled: true
+    port: 3000
+    metricsRetention: 3600000
+    logLevel: debug
+    exportInterval: 30000
+  
+  memory:
+    enabled: true
+    maxEntries: 1000
+    compressionEnabled: true
+    indexingEnabled: true
+    cacheSize: 100
+
+claude:
+  subscription:
+    mode: subscription
+    maxTokens: 4096
+    temperature: 0.7
+    rateLimitRpm: 60
+  
+  fallback:
+    enabled: false
+    providers: []
+    timeout: 30000
+
+security:
+  authentication:
+    enabled: false
+    provider: none
+    sessionTimeout: 3600000
+  
+  authorization:
+    enabled: false
+    defaultRole: user
+  
+  encryption:
+    enabled: false
+    algorithm: aes-256-gcm
+    keyRotationInterval: 2592000000
+
+storage:
+  type: filesystem
+  path: ./dev-data
+  backup:
+    enabled: true
+    interval: 86400000
+    retention: 3
+
+features:
+  experimental:
+    asyncPatterns: true
+    aiOptimization: false
+    distributedExecution: false
+    advancedMemory: false
+  
+  beta:
+    webInterface: true
+    restApi: true
+    realTimeUpdates: true
+    metricsExport: true
+  
+  stable:
+    cliInterface: true
+    configurationManagement: true
+    basicMonitoring: true
+    memoryPersistence: true
+
+performance:
+  cpu:
+    maxCpuUsage: 70
+    throttleThreshold: 85
+  
+  memory:
+    maxMemoryUsage: 536870912  # 512MB
+    gcInterval: 300000
+  
+  network:
+    maxConnections: 100
+    connectionTimeout: 30000
+    keepAliveTimeout: 5000
+  
+  cache:
+    maxCacheSize: 52428800  # 50MB
+    ttl: 1800000
+    compressionEnabled: true

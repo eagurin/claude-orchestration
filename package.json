@@ -4,7 +4,9 @@
   "description": "A powerful orchestration system for managing multiple Claude agents",
   "main": "dist/agents/cli/index.js",
   "bin": {
-    "claude-orchestrate": "dist/agents/cli/index.js"
+    "claude-orchestrate": "dist/agents/cli/index.js",
+    "claude-settings": "dist/settings/cli.js",
+    "claude-supervisors": "dist/agents/cli/supervisor-cli.js"
   },
   "scripts": {
     "dev": "tsx watch src/agents/cli/index.ts",
@@ -31,6 +33,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.20.0",
     "@modelcontextprotocol/sdk": "^0.4.0",
+    "blessed": "^0.1.81",
     "commander": "^11.1.0",
     "dotenv": "^16.4.5",
     "ioredis": "^5.3.2",
@@ -39,6 +42,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/blessed": "^0.1.21",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
