@@ -1,4 +1,4 @@
-import { spawn, ChildProcess } from 'child_process';
+// import { spawn, ChildProcess } from 'child_process'; // Future use
 import type { Agent, AgentStatus, Task, TaskResult, AgentConfig } from '../types/index.js';
 
 /**

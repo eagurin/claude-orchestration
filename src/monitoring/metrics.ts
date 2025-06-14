@@ -15,7 +15,7 @@ export class MetricsCollector {
     // TODO: Stop metrics collection
   }
 
-  recordTaskExecution(pattern: ExecutionPattern, duration: number, success: boolean): void {
+  recordTaskExecution(_pattern: ExecutionPattern, _duration: number, _success: boolean): void {
     // TODO: Record task execution metrics
   }
 

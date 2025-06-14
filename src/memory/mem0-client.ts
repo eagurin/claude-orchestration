@@ -15,12 +15,12 @@ export class MemoryManager {
     // TODO: Disconnect from mem0
   }
 
-  async getRelevantContext(description: string): Promise<any> {
+  async getRelevantContext(_description: string): Promise<any> {
     // TODO: Get relevant context from memory
     return {};
   }
 
-  async storeResult(task: Task, result: TaskResult): Promise<void> {
+  async storeResult(_task: Task, _result: TaskResult): Promise<void> {
     // TODO: Store task result in memory
   }
 }

@@ -9,7 +9,7 @@ export class AgentPool extends EventEmitter {
     this.config = config;
   }
 
-  async initialize(mcpManager: any): Promise<void> {
+  async initialize(_mcpManager: any): Promise<void> {
     // TODO: Initialize agent pool
   }
 

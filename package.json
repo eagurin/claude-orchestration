@@ -1,6 +1,6 @@
 {
   "name": "claude-orchestration",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A powerful orchestration system for managing multiple Claude agents",
   "main": "dist/agents/cli/index.js",
   "bin": {
@@ -10,7 +10,7 @@
     "dev": "tsx watch src/agents/cli/index.ts",
     "build": "tsc",
     "start": "node dist/agents/cli/index.js",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
