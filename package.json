@@ -2,21 +2,21 @@
   "name": "claude-orchestration",
   "version": "0.1.0",
   "description": "A powerful orchestration system for managing multiple Claude agents",
-  "main": "dist/index.js",
+  "main": "dist/agents/cli/index.js",
   "bin": {
-    "claude-orchestrate": "dist/cli/index.js"
+    "claude-orchestrate": "dist/agents/cli/index.js"
   },
   "scripts": {
-    "dev": "tsx watch src/cli/index.ts",
+    "dev": "tsx watch src/agents/cli/index.ts",
     "build": "tsc",
-    "start": "node dist/cli/index.js",
+    "start": "node dist/agents/cli/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "setup": "npm run build && npm run setup:mcp",
     "setup:mcp": "node scripts/setup-mcp.js",
-    "task:submit": "node dist/cli/index.js task submit"
+    "task:submit": "node dist/agents/cli/index.js task submit"
   },
   "keywords": [
     "claude",

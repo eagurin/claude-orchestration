@@ -2,10 +2,10 @@
 
 import { Command } from 'commander';
 import { config } from 'dotenv';
-import { Orchestrator } from '../orchestrator/index.js';
-import { loadConfig } from '../utils/config.js';
-import { Logger } from '../utils/logger.js';
-import type { Task } from '../types/index.js';
+import { Orchestrator } from '../../orchestrator/index.js';
+import { loadConfig } from '../../utils/config.js';
+import { Logger } from '../../utils/logger.js';
+import type { Task } from '../../types/index.js';
 
 // Load environment variables
 config();
@@ -249,7 +249,7 @@ Available commands:
             const result = await orchestrator.execute(task);
             console.log('Result:', JSON.stringify(result, null, 2));
           } catch (error) {
-            console.error('Task failed:', error.message);
+            console.error('Task failed:', error instanceof Error ? error.message : 'Unknown error');
           }
         }
 

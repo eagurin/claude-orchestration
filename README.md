@@ -18,27 +18,41 @@ A powerful orchestration system for managing multiple Claude agents using Model 
 
 ## 🏃‍♂️ Quick Start
 
+### С подпиской Claude Code (без API ключей)
+
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/claude_orchestration
+git clone https://github.com/eagurin/claude-orchestration.git
 cd claude_orchestration
 
 # Install dependencies
 npm install
 
-# Setup MCP servers
+# Setup for subscription mode (no API key needed)
+echo "CLAUDE_MODE=subscription" > .env
 npm run setup
 
 # Start the orchestrator
-npm start
+npm run build && npm start
 
 # In another terminal, submit a task
 npm run task:submit -- --pattern swarm "Refactor this codebase for better performance"
 ```
 
+### С API ключом Anthropic
+
+```bash
+# Same steps, but configure API mode
+echo "CLAUDE_MODE=api" > .env
+echo "ANTHROPIC_API_KEY=your_key_here" >> .env
+npm run setup && npm start
+```
+
+📖 **Подробная инструкция для работы без API ключей**: [README_NO_API.md](./README_NO_API.md)
+
 ## 🏗️ Architecture
 
-```
+```bash
 ┌──────────────────────────────────────────────────────────────┐
 │                  ORCHESTRATOR (Node.js)                      │
 │  ┌───────────────┐  ┌─────────────┐  ┌──────────────┐  │
@@ -182,7 +196,7 @@ npm test
 
 ### Project Structure
 
-```
+```bash
 claude_orchestration/
 ├── src/                    # Source code
 │   ├── orchestrator/      # Core orchestration

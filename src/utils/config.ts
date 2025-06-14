@@ -65,7 +65,7 @@ export async function loadConfig(configPath?: string): Promise<OrchestratorConfi
     // Deep merge with default config
     return mergeConfig(defaultConfig, userConfig);
   } catch (error) {
-    console.warn(`Failed to load config from ${configPath}, using defaults:`, error.message);
+    console.warn(`Failed to load config from ${configPath}, using defaults:`, error instanceof Error ? error.message : 'Unknown error');
     return defaultConfig;
   }
 }

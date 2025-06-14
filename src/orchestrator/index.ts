@@ -152,7 +152,7 @@ export class Orchestrator extends EventEmitter {
       
       this.logger.error(`Task execution failed`, {
         taskId: task.id,
-        error: error.message,
+        error: error instanceof Error ? error.message : 'Unknown error',
         duration
       });
 
